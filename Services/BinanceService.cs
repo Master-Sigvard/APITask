@@ -2,19 +2,18 @@
 using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json.Linq;
 
 namespace APITask.Services;
 public class BinanceService
 {
     private readonly HttpClient _httpClient;
-    private readonly string _apiKey;
     private readonly string _baseUrl;
 
-    public BinanceService(HttpClient httpClient, IConfiguration configuration)
+    public BinanceService(HttpClient httpClient)
     {
         _httpClient = httpClient;
-        _apiKey = configuration["Binance:ApiKey"];
-        _baseUrl = configuration["Binance:BaseUrl"];
+        _baseUrl = "https://api.binance.com";
     }
 
     public async Task<decimal> GetRateAsync(string symbol)
@@ -24,7 +23,8 @@ public class BinanceService
         response.EnsureSuccessStatusCode();
 
         var content = await response.Content.ReadAsStringAsync();
-        var rate = JsonDocument.Parse(content).RootElement.GetProperty("price").GetDecimal();
+        var rateString = JsonDocument.Parse(content).RootElement.GetProperty("price").GetString();
+        decimal.TryParse(rateString, out var rate);
 
         return rate;
     }

@@ -30,3 +30,5 @@ E:\Cshit\APITask\obj\Debug\net8.0\refint\APITask.dll
 E:\Cshit\APITask\obj\Debug\net8.0\APITask.pdb
 E:\Cshit\APITask\obj\Debug\net8.0\APITask.genruntimeconfig.cache
 E:\Cshit\APITask\obj\Debug\net8.0\ref\APITask.dll
+E:\Cshit\APITask\obj\Debug\net8.0\APITask.sourcelink.json
+E:\Cshit\APITask\bin\Debug\net8.0\Newtonsoft.Json.dll

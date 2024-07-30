@@ -20,7 +20,10 @@ public class ExchangeController : ControllerBase
     {
         //exchange rate
         var binanceRate = await _binanceService.GetRateAsync($"{inputCurrency}{outputCurrency}");
-        var kucoinRate = await _kucoinService.GetRateAsync($"{inputCurrency}{outputCurrency}");
+        /* Kucoin api has different supported symbols from binance api, (USDTBTC for binance and BTC-USDT for Kucoin)
+         * so in next line input and output currencies was reversed to get proper GET request to kucoin api
+         and then in KuCoinService the required price is calculated based on the received */
+        var kucoinRate = await _kucoinService.GetRateAsync($"{outputCurrency}-{inputCurrency}");
 
         //exchange result
         var binanceOutput = inputAmount * binanceRate;
@@ -36,7 +39,10 @@ public class ExchangeController : ControllerBase
     public async Task<IActionResult> GetRates(string baseCurrency, string quoteCurrency)
     {
         var binanceRate = await _binanceService.GetRateAsync($"{baseCurrency}{quoteCurrency}");
-        var kucoinRate = await _kucoinService.GetRateAsync($"{baseCurrency}{quoteCurrency}");
+        /* Kucoin api has different supported symbols from binance api, (USDTBTC for binance and BTC-USDT for Kucoin)
+        * so in next line input and output currencies was reversed to get proper GET request to kucoin api
+        and then in KuCoinService the required price is calculated based on the received */
+        var kucoinRate = await _kucoinService.GetRateAsync($"{quoteCurrency}-{baseCurrency}");
 
         return Ok(new[]
         {
